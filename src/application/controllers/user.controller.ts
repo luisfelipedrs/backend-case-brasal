@@ -5,6 +5,14 @@ import { ApiError, BadRequestError } from "../util/api-error";
 class UserController {
 
     login = async (req: Request, res: Response) => {
+        if (!req.body.username) {
+            throw new BadRequestError('O campo Usuário deve ser informado');
+        }
+
+        if (!req.body.password) {
+            throw new BadRequestError('O campo Senha deve ser informado');
+        }
+
         const result = await userService.login(req.body);
 
         if (result instanceof Error) {
@@ -15,6 +23,17 @@ class UserController {
     }
 
     register = async (req: Request, res: Response) => {
+        if (!req.body.username) {
+            throw new BadRequestError('O campo Usuário deve ser informado');
+        }
+
+        if (!req.body.password) {
+            throw new BadRequestError('O campo Senha deve ser informado');
+        }
+
+        if (!req.body.confirmPassword) {
+            throw new BadRequestError('O campo Confirmar Senha deve ser informado');
+        }
 
         const password = req.body.password as string;
         const confirmPassword = req.body.confirmPassword as string;
