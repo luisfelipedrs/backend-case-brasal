@@ -1,45 +1,33 @@
 import { User } from '../domain/models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import { ApiError, BadRequestError } from '../application/util/api-error';
 
 const secret: string = process.env.JWT_SECRET || '12345';
 
 export class UserService {
 
     async login(user: User) {
-        try {
-            const foundUser = await User.findOne({ username: user.username });
+        const foundUser = await User.findOne({ username: user.username });
             
-            if (!foundUser) {
-                throw new Error('Usuário incorreto');
-            }
+        if (!foundUser) {
+            throw new BadRequestError('Usuário incorreto');
+        }
 
-            const isMatch = bcrypt.compareSync(user.password, foundUser.password);
+        const isMatch = bcrypt.compareSync(user.password, foundUser.password);
 
-            if (isMatch) {
-                const token = jwt.sign({ _id: foundUser._id?.toString(), username: foundUser.username }, secret, {expiresIn: '5 days'});
-                return { token: token };
-            }
+        if (!isMatch) {
+            throw new BadRequestError('Senha incorreta');
+        }
 
-            return new Error('Senha incorreta');
-
-        } catch(err) {
-            console.log(err);
-            return new Error('Não foi possível realizar o login');
-        };
-    };
+        const token = jwt.sign({ _id: foundUser._id?.toString(), username: foundUser.username }, secret, {expiresIn: '5 days'});
+        return { token: token };
+    }
 
     async register(user: User) {
-        try {
-            const result = await User.create(user);
-            return result;
-
-        } catch(err) {
-            console.log(err);
-            return new Error('Não foi possível cadastrar usuário');
-        };
-    };
+        const result = await User.create(user);
+        return result;
+    }
 }
 
 export const userService = new UserService();

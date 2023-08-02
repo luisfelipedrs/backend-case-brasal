@@ -1,6 +1,6 @@
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv';
+import { BadRequestError, UnauthorizedError } from '../util/api-error';
 
 const secret: string = process.env.JWT_SECRET || '12345';
 
@@ -13,7 +13,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         const token = req.header('Authorization')?.split(' ')[1];
 
         if (!token) {
-            throw new Error();
+            throw new BadRequestError('Token não informado');
         }
 
         const decoded = jwt.verify(token, secret);
@@ -22,9 +22,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         next();
 
     } catch(err) {
-        console.log(err)
-        res.status(401).json({
-            error: 'Please authenticate'
-        });
+        throw new UnauthorizedError('Usuário não autenticado');
     }
 }

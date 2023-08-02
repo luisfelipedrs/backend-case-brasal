@@ -1,47 +1,35 @@
+import { NotFoundError } from "../application/util/api-error";
 import { Task } from "../domain/models/task";
 
 export class TaskService {
-    
-    async createTask(description: string) {
-        try {
-            const newTask = new Task(description);
-            const result = await newTask.save();
-            return result;
 
-        } catch(err) {
-            console.log(err) 
-            return new Error('Erro ao registrar tarefa');
-        };
-    };
+    async createTask(description: string) {
+        const newTask = new Task(description);
+        const result = await newTask.save();
+        return result;
+    }
 
     async getTasks(description?: string, page?: string) {
-        try {
-            if (description != null) {
-                const allTasks = await Task.find();
-                const filteredTasks = allTasks.filter(task => task.description.includes(description));
-                return filteredTasks;
-            };
+        if (description != null) {
+            const allTasks = await Task.find();
+            const filteredTasks = allTasks.filter(task => task.description.includes(description));
+            return filteredTasks;
+        }
 
-            const paginationOptions = {
-                page: parseInt(page?.trim() || ''),
-                limit: 5
-            };
+        const paginationOptions = {
+            page: parseInt(page?.trim() || ''),
+            limit: 5
+        }
 
-            const tasks = await Task.paginate({}, paginationOptions);
-            return tasks;
-
-        } catch(err) {
-            console.log(err);
-            return new Error('Não foi possível carregar tarefas');
-        };
-    };
+        const tasks = await Task.paginate({}, paginationOptions);
+        return tasks;
+    }
 
     async updateTask(id?: string, description?: string, completed?: boolean) {
-        try {
-            let task = await Task.findById(id);
+        let task = await Task.findById(id);
 
             if (!task) {
-                return new Error('Tarefa não encontrada');
+                throw new NotFoundError('Tarefa não encontrada');
             };
 
             const filter = { _id: id };
@@ -51,26 +39,18 @@ export class TaskService {
 
             let result = await Task.updateOne(filter, update);
             return result;
-
-        } catch(err) {
-            console.log(err);
-            return new Error('Erro ao atualizar tarefa');
-        };
-    };
+    }
 
     async deleteTask(id: string) {
-        try {
-            const task = await Task.findByIdAndDelete(id);
+        const task = await Task.findById(id);
 
-            if (!task) {
-                return new Error('Tarefa não encontrada');
-            };
+        if (!task) {
+            throw new NotFoundError('Tarefa não encontrada');
+        }
 
-        } catch(err) {
-            console.log(err);
-            return new Error('Erro ao deletar tarefa');
-        };
-    };
+        let result = await Task.deleteOne({ _id: task._id });
+        return result;
+    }
 }
 
 export const taskService = new TaskService();

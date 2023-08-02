@@ -1,3 +1,4 @@
+import 'express-async-errors';
 import express from 'express';
 import { taskController } from './application/controllers/task.controller';
 import { userController } from './application/controllers/user.controller';

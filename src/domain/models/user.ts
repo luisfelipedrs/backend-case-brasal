@@ -7,7 +7,7 @@ export interface User {
     _id?: string;
     username: string;
     password: string;
-};
+}
 
 const userSchema: mongoose.Schema<User> = new mongoose.Schema({
     username: { type: String, unique: true },

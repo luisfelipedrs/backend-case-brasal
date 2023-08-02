@@ -22,7 +22,7 @@ const taskSchema = new mongoose.Schema({
 
         timestamps: true
     }
-);
+)
 
 taskSchema.plugin(paginate);
 

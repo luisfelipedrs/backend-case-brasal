@@ -14,7 +14,7 @@ const options = {
     maxPoolSize: 10,
     serverSelectionTimeoutMS: 5000,
     family: 4
-};
+}
 
 export const db = mongoose.connect(connectionString, options)
     .then(res => {
