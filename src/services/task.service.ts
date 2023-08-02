@@ -3,12 +3,8 @@ import { Task } from "../domain/models/task";
 export class TaskService {
     
     async createTask(description: string) {
-        const data = {
-            description: description
-        };
-
         try {
-            const newTask = new Task(data);
+            const newTask = new Task(description);
             const result = await newTask.save();
             return result;
 
