@@ -25,6 +25,12 @@ export class UserService {
     }
 
     async register(user: User) {
+        const newUser = await User.findOne({ username: user.username });
+
+        if (newUser) {
+            throw new BadRequestError('Usuário já cadastrado');
+        }
+        
         const result = await User.create(user);
         return result;
     }

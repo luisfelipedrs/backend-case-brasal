@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { userService } from "../../services/user.service";
-import { ApiError } from "../util/api-error";
+import { ApiError, BadRequestError } from "../util/api-error";
 
 class UserController {
 
@@ -15,6 +15,14 @@ class UserController {
     }
 
     register = async (req: Request, res: Response) => {
+
+        const password = req.body.password as string;
+        const confirmPassword = req.body.confirmPassword as string;
+
+        if (!(password === confirmPassword)) {
+            throw new BadRequestError('As senhas devem ser iguais'); 
+        }
+
         const result = await userService.register(req.body);
 
         if (result instanceof Error) {
