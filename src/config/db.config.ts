@@ -16,4 +16,11 @@ const options = {
     family: 4
 };
 
-export const db = mongoose.connect(connectionString)
+export const db = mongoose.connect(connectionString, options)
+    .then(res => {
+        if (res) {
+            console.log('Connected to database');
+        }
+    }).catch(err => {
+        console.log(err);
+    });
