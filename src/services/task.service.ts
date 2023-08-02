@@ -18,7 +18,7 @@ export class TaskService {
         };
     };
 
-    async getTasks(description?: string) {
+    async getTasks(description?: string, page?: string) {
         try {
             if (description != null) {
                 const allTasks = await Task.find();
@@ -27,11 +27,8 @@ export class TaskService {
             };
 
             const paginationOptions = {
-                page: 1,
-                limit: 10,
-                collation: {
-                    locale: 'en',
-                }
+                page: parseInt(page?.trim() || ''),
+                limit: 5
             };
 
             const tasks = await Task.paginate({}, paginationOptions);
