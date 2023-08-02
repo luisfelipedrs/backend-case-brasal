@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { userService } from "../../services/user.service";
 import { ApiError, BadRequestError } from "../util/api-error";
+import { HttpStatus } from "../util/http-code";
 
 class UserController {
 
@@ -16,10 +17,10 @@ class UserController {
         const result = await userService.login(req.body);
 
         if (result instanceof Error) {
-            throw new ApiError(result.message, 500);
+            throw new ApiError(result.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        res.status(200).json(result);
+        res.status(HttpStatus.OK).json(result);
     }
 
     register = async (req: Request, res: Response) => {
@@ -45,10 +46,10 @@ class UserController {
         const result = await userService.register(req.body);
 
         if (result instanceof Error) {
-            throw new ApiError(result.message, 500);
+            throw new ApiError(result.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        res.status(200).json({ message: 'Usuário cadastrado com sucesso!'});
+        res.status(HttpStatus.CREATED).json({ message: 'Usuário cadastrado com sucesso!'});
     }
 }
 

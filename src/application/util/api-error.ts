@@ -1,9 +1,4 @@
-export enum HttpError {
-    BAD_REQUEST = 400,
-    UNAUTHORIZED = 401,
-    NOT_FOUND = 404,
-    INTERNAL_SERVER_ERROR = 500
-}
+import { HttpStatus } from "./http-code";
 
 export class ApiError extends Error {
     public readonly statusCode: number;
@@ -16,18 +11,18 @@ export class ApiError extends Error {
 
 export class BadRequestError extends ApiError {
     constructor(message: string) {
-        super(message, HttpError.BAD_REQUEST);
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }
 
 export class NotFoundError extends ApiError {
     constructor(message: string) {
-        super(message, HttpError.NOT_FOUND);
+        super(message, HttpStatus.NOT_FOUND);
     }
 }
 
 export class UnauthorizedError extends ApiError {
     constructor(message: string) {
-        super(message, HttpError.UNAUTHORIZED);
+        super(message, HttpStatus.UNAUTHORIZED);
     }
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { taskService } from '../../services/task.service';
 import { ApiError, BadRequestError } from '../util/api-error';
+import { HttpStatus } from '../util/http-code';
 
 class TaskController {
 
@@ -16,16 +17,16 @@ class TaskController {
         const result = await taskService.createTask(req.body.description);
 
         if (result instanceof Error) {
-            throw new ApiError(result.message, 500);
+            throw new ApiError(result.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return res.status(201).json(result);
+        return res.status(HttpStatus.CREATED).json(result);
     }
 
     getTasks = async (req: Request, res: Response) => {
         const { description, page } = req.query;
         const result = await taskService.getTasks(description as string, page as string);
-        res.status(200).json(result);
+        res.status(HttpStatus.OK).json(result);
     }
 
     updateTask = async (req: Request, res: Response) => {
@@ -42,10 +43,10 @@ class TaskController {
         const result = await taskService.updateTask(data.id, data.description, data.completed);
 
         if (result instanceof Error) {
-            throw new ApiError(result.message, 500);
+            throw new ApiError(result.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return res.status(200).json(result);
+        return res.status(HttpStatus.OK).json(result);
     }
 
     deleteTask = async (req: Request, res: Response) => {
@@ -57,10 +58,10 @@ class TaskController {
         const result = await taskService.deleteTask(id);
 
         if (result instanceof ApiError) {
-            throw new ApiError(result.message, 500);
+            throw new ApiError(result.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return res.status(204).send();
+        return res.status(HttpStatus.NO_CONTENT).send();
     }
 }
 
