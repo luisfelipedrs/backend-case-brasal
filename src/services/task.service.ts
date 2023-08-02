@@ -11,7 +11,7 @@ export class TaskService {
 
     async getTasks(description?: string, page?: string) {
         const paginationOptions = {
-            page: parseInt(page?.trim() || ''),
+            page: parseInt(page?.trim() || '1'),
             limit: 5
         }
 
