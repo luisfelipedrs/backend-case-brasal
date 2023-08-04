@@ -8,6 +8,21 @@ export const router = express.Router();
 
 /**
  * @openapi
+ * /api/v1/tasks:
+ *  get:
+ *     tags:
+ *     - Tasks
+ *     description: Retorna todas as tarefas registradas
+ *     responses:
+ *       200:
+ *         description: Request ok
+ *       401:
+ *         description: Unauthorized
+ */
+router.get('/tasks', taskController.getTasks);
+
+/**
+ * @openapi
  * '/api/v1/tasks':
  *  post:
  *     tags:
@@ -31,21 +46,6 @@ export const router = express.Router();
  *        description: Bad request
  */
 router.post('/tasks', auth, taskController.addTask);
-
-/**
- * @openapi
- * /api/v1/tasks:
- *  get:
- *     tags:
- *     - Tasks
- *     description: Retorna todas as tarefas registradas
- *     responses:
- *       200:
- *         description: Request ok
- *       401:
- *         description: Unauthorized
- */
-router.get('/tasks', auth, taskController.getTasks);
 
 /**
  * @openapi

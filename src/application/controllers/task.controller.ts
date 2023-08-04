@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { taskService } from '../../services/task.service';
 import { ApiError, BadRequestError } from '../util/api-error';
 import { HttpStatus } from '../util/http-code';
-import { TaskMapper } from '../mappers/task-map';
 import { TaskDTO } from '../dto/in/task-dto';
 
 class TaskController {
