@@ -7,6 +7,36 @@ export interface Task {
     completed: boolean;
 }
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreateTaskInput:
+ *      type: object
+ *      required:
+ *        - description
+ *        - completed
+ *      properties:
+ *        description:
+ *          type: string
+ *          default: Tarefa 1
+ *        completed:
+ *          type: boolean
+ *          default: false
+ *    CreateTaskResponse:
+ *      type: object
+ *      properties:
+ *        description:
+ *          type: string
+ *        completed:
+ *          type: boolean
+ *        _id:
+ *          type: string
+ *        createdAt:
+ *          type: Date
+ *        updatedAt:
+ *          type: Date
+ */
 const taskSchema = new mongoose.Schema({
         description: { type: String, required: true },
         completed: { type: Boolean, default: false },
