@@ -10,9 +10,17 @@ export interface User {
 }
 
 const userSchema: mongoose.Schema<User> = new mongoose.Schema({
-    username: { type: String, unique: true },
-    password: { type: String },
-});
+        username: { type: String, unique: true },
+        password: { type: String }, 
+    }, 
+    {
+    toJSON: {
+        transform: (_, ret): void => {
+            delete ret.__v;
+            delete ret.password;
+        }
+    }
+})
 
 userSchema.pre('save', async function (next) {
     const user = this;

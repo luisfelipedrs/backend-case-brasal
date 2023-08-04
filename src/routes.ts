@@ -8,7 +8,8 @@ export const router = express.Router();
 
 router.post('/tasks', auth, taskController.addTask);
 router.get('/tasks', auth, taskController.getTasks);
-router.put('/tasks/:id?', auth, taskController.updateTask);
+router.patch('/tasks/:id?', auth, taskController.updateTaskStatus);
+router.put('/tasks/:id', auth, taskController.updateTask);
 router.delete('/tasks/:id?', auth, taskController.deleteTask);
 
 router.post('/login', userController.login);

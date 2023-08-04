@@ -17,10 +17,10 @@ const options = {
 }
 
 export const db = mongoose.connect(connectionString, options)
-    .then(res => {
-        if (res) {
-            console.log('Connected to database');
-        }
-    }).catch(err => {
-        console.log(err);
-    });
+.then(res => {
+    if (res) {
+        console.log('Connected to database');
+    }
+}).catch(err => {
+    console.log(err);
+});
