@@ -10,7 +10,6 @@ Desenvolvimento de API Rest para uma aplicação de gerenciamento de tarefas com
 - MongoDB, Mongoose e Atlas
 - Swagger OpenApi
 
-![divider](./w3tec-divider.png)
 
 ## ❯ Começando
 
@@ -40,7 +39,6 @@ npm run dev
 > This starts a local server using `nodemon`, which will watch for any file changes and will restart the server according to these changes.
 > The server address will be displayed to you as `http://0.0.0.0:3000`.
 
-![divider](./w3tec-divider.png)
 
 
 ## ❯ Endpoints
@@ -55,4 +53,3 @@ npm run dev
 | **/api/1/register**   | POST - Registra um novo usuário |
 | **/api/1/login**   | POST - Retorna uma lista paginada com todas as tarefas cadastradas |
 
-![divider](./w3tec-divider.png)
